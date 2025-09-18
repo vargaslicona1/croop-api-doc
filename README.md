@@ -2,44 +2,44 @@
 
 ## Índice
 
-1. [Introducción](#introducción)
-2. [Información General](#información-general)
-   - 2.1 [URL Base y Ambiente](#url-base-y-ambiente)
-   - 2.2 [Autenticación y Seguridad](#autenticación-y-seguridad)
-   - 2.3 [Variables Globales](#variables-globales)
-3. [Módulo de Autenticación](#módulo-de-autenticación)
-   - 3.1 [Login - Inicio de Sesión](#login---inicio-de-sesión)
-4. [Módulo de Gestión de Clientes](#módulo-de-gestión-de-clientes)
-   - 4.1 [Consultar ID de Cliente por Email](#consultar-id-de-cliente-por-email)
-   - 4.2 [Consultar Clientes General](#consultar-clientes-general)
-   - 4.3 [Consultar Cliente por PKey](#consultar-cliente-por-pkey)
-   - 4.4 [Catálogo de Países](#catálogo-de-países)
-   - 4.5 [Insertar Nuevo Cliente](#insertar-nuevo-cliente)
-5. [Módulo de Gestión de Créditos](#módulo-de-gestión-de-créditos)
-   - 5.1 [Consultar Productos Disponibles](#consultar-productos-disponibles)
-   - 5.2 [Consultar Catálogos de Carteras](#consultar-catálogos-de-carteras)
-   - 5.3 [Consultar Catálogos de Plazos](#consultar-catálogos-de-plazos)
-   - 5.4 [Generar Cotización y Tabla de Amortización](#generar-cotización-y-tabla-de-amortización)
-   - 5.5 [Insertar Crédito](#insertar-crédito)
-   - 5.6 [Consultar Créditos por Cliente](#consultar-créditos-por-cliente)
-6. [Módulo de Consultas de Contratos](#módulo-de-consultas-de-contratos)
-   - 6.1 [Consultar Tabla de Amortización](#consultar-tabla-de-amortización)
-   - 6.2 [Consultar Detalles de Contrato](#consultar-detalles-de-contrato)
-7. [Módulo de Gestión de Pagos](#módulo-de-gestión-de-pagos)
-   - 7.1 [Consultar Lista de Pagos](#consultar-lista-de-pagos)
-   - 7.2 [Insertar Pago](#insertar-pago)
-   - 7.3 [Ejecución Manual de Cobro](#ejecución-manual-de-cobro)
-8. [Catálogos Adicionales](#catálogos-adicionales)
-   - 8.1 [Consultar Carteras de Empresa](#consultar-carteras-de-empresa)
-9. [Módulo de Movimientos y Transacciones](#módulo-de-movimientos-y-transacciones)
-   - 9.1 [Consultar Movimientos de Contrato](#consultar-movimientos-de-contrato)
-10. [Consideraciones Técnicas](#consideraciones-técnicas)
-11. [Códigos de Respuesta](#códigos-de-respuesta)
-12. [Mejores Prácticas](#mejores-prácticas)
+1. [Introducción](#1-introducción)
+2. [Información General](#2-información-general)
+   - 2.1 [URL Base y Ambiente](#21-url-base-y-ambiente)
+   - 2.2 [Autenticación y Seguridad](#22-autenticación-y-seguridad)
+   - 2.3 [Variables Globales](#23-variables-globales)
+3. [Módulo de Autenticación](#3-módulo-de-autenticación)
+   - 3.1 [Login - Inicio de Sesión](#31-login---inicio-de-sesión)
+4. [Módulo de Gestión de Clientes](#4-módulo-de-gestión-de-clientes)
+   - 4.1 [Consultar ID de Cliente por Email](#41-consultar-id-de-cliente-por-email)
+   - 4.2 [Consultar Clientes General](#42-consultar-clientes-general)
+   - 4.3 [Consultar Cliente por PKey](#43-consultar-cliente-por-pkey)
+   - 4.4 [Catálogo de Países](#44-catálogo-de-países)
+   - 4.5 [Insertar Nuevo Cliente](#45-insertar-nuevo-cliente)
+5. [Módulo de Gestión de Créditos](#5-módulo-de-gestión-de-créditos)
+   - 5.1 [Consultar Productos Disponibles](#51-consultar-productos-disponibles)
+   - 5.2 [Consultar Catálogos de Carteras](#52-consultar-catálogos-de-carteras)
+   - 5.3 [Consultar Catálogos de Plazos](#53-consultar-catálogos-de-plazos)
+   - 5.4 [Generar Cotización y Tabla de Amortización](#54-generar-cotización-y-tabla-de-amortización)
+   - 5.5 [Insertar Crédito](#55-insertar-crédito)
+   - 5.6 [Consultar Créditos por Cliente](#56-consultar-créditos-por-cliente)
+6. [Módulo de Consultas de Contratos](#6-módulo-de-consultas-de-contratos)
+   - 6.1 [Consultar Tabla de Amortización](#61-consultar-tabla-de-amortización)
+   - 6.2 [Consultar Detalles de Contrato](#62-consultar-detalles-de-contrato)
+7. [Módulo de Gestión de Pagos](#7-módulo-de-gestión-de-pagos)
+   - 7.1 [Consultar Lista de Pagos](#71-consultar-lista-de-pagos)
+   - 7.2 [Insertar Pago](#72-insertar-pago)
+   - 7.3 [Ejecución Manual de Cobro](#73-ejecución-manual-de-cobro)
+8. [Catálogos Adicionales](#8-catálogos-adicionales)
+   - 8.1 [Consultar Carteras de Empresa](#81-consultar-carteras-de-empresa)
+9. [Módulo de Movimientos y Transacciones](#9-módulo-de-movimientos-y-transacciones)
+   - 9.1 [Consultar Movimientos de Contrato](#91-consultar-movimientos-de-contrato)
+10. [Consideraciones Técnicas](#10-consideraciones-técnicas)
+11. [Códigos de Respuesta](#11-códigos-de-respuesta)
+12. [Mejores Prácticas](#12-mejores-prácticas)
 
 ---
 
-## 1. Introducción
+## 1. Introducción {(#1-introducción)}
 
 El presente documento describe la especificación técnica de la API REST del sistema **CROOP Panel Cross**, una plataforma integral para la gestión de créditos y servicios financieros. Esta API proporciona una interfaz programática que permite la integración con sistemas externos y la automatización de procesos relacionados con la administración de clientes, créditos, pagos y transacciones financieras.
 
@@ -313,17 +313,17 @@ Endpoint para el registro de nuevos clientes en el sistema, incluyendo toda la i
     "RFC": "string",
     "CURP": "string",
     "Fecha_Nac": "string",
-    "FK_TipoPersona": integer,
-    "FK_PaisNacimiento": integer,
-    "FK_PaisResidencia": integer,
-    "FK_Genero": integer,
+    "FK_TipoPersona": "integer",
+    "FK_PaisNacimiento": "integer",
+    "FK_PaisResidencia": "integer",
+    "FK_Genero": "integer",
     "Celular": "string",
     "Calle_Numero": "string",
     "FK_Nacionalidad": "string",
     "FK_Estado": "string",
     "FK_Delegacion": "string",
     "Codigo_Postal": "string",
-    "FK_Empresa": integer,
+    "FK_Empresa": "integer",
     "Ciudad": "string",
     "Password": "string"
 }
@@ -456,11 +456,11 @@ Genera una cotización detallada y la tabla de amortización para un crédito po
 ```json
 {
     "Bandera": "437",
-    "FK_LoginName": integer,
-    "Plazo": integer,
-    "Monto": decimal,
-    "FK_TipoPlazo": integer,
-    "FK_Producto": integer,
+    "FK_LoginName": "integer",
+    "Plazo": "integer",
+    "Monto": "decimal",
+    "FK_TipoPlazo": "integer",
+    "FK_Producto": "integer",
     "PKey": "string"
 }
 ```
@@ -502,19 +502,19 @@ Crea un nuevo crédito en el sistema con todas sus características y parámetro
 {
     "Bandera": 100,
     "Nombre": "string",
-    "Plazo": integer,
-    "FK_TipoPlazo": integer,
-    "Interes": decimal,
+    "Plazo": "integer",
+    "FK_TipoPlazo": "integer",
+    "Interes": "decimal",
     "FK_Empresa": "string",
-    "FK_Usuario_Sol": integer,
-    "Monto": decimal,
-    "Status": integer,
-    "FK_Cartera": integer,
-    "FK_ConductoCobro": integer,
-    "FK_TipoCredito": integer,
-    "Detalle": integer,
-    "FK_LoginName": integer,
-    "FK_Producto": integer,
+    "FK_Usuario_Sol": "integer",
+    "Monto": "decimal",
+    "Status": "integer",
+    "FK_Cartera": "integer",
+    "FK_ConductoCobro": "integer",
+    "FK_TipoCredito": "integer",
+    "Detalle": "integer",
+    "FK_LoginName": "integer",
+    "FK_Producto": "integer",
     "fJSON": "string",
     "FechaSolicitud": "string"
 }
@@ -1066,4 +1066,3 @@ Para soporte técnico o consultas sobre la API:
 *Cambios: 18-09-2025 - Carga de documentación inicial*
 
 *Esta documentación estará en constante actualización si se ameritan correcciones o actualizaciones de endpoints*
-
