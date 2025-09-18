@@ -11,15 +11,17 @@
    - 3.1 [Login - Inicio de Sesión](#login---inicio-de-sesión)
 4. [Módulo de Gestión de Clientes](#módulo-de-gestión-de-clientes)
    - 4.1 [Consultar ID de Cliente por Email](#consultar-id-de-cliente-por-email)
-   - 4.2 [Consultar Cliente por PKey](#consultar-cliente-por-pkey)
-   - 4.3 [Catálogo de Países](#catálogo-de-países)
-   - 4.4 [Insertar Nuevo Cliente](#insertar-nuevo-cliente)
+   - 4.2 [Consultar Clientes General](#consultar-clientes-general)
+   - 4.3 [Consultar Cliente por PKey](#consultar-cliente-por-pkey)
+   - 4.4 [Catálogo de Países](#catálogo-de-países)
+   - 4.5 [Insertar Nuevo Cliente](#insertar-nuevo-cliente)
 5. [Módulo de Gestión de Créditos](#módulo-de-gestión-de-créditos)
    - 5.1 [Consultar Productos Disponibles](#consultar-productos-disponibles)
    - 5.2 [Consultar Catálogos de Carteras](#consultar-catálogos-de-carteras)
-   - 5.3 [Generar Cotización y Tabla de Amortización](#generar-cotización-y-tabla-de-amortización)
-   - 5.4 [Insertar Crédito](#insertar-crédito)
-   - 5.5 [Consultar Créditos por Cliente](#consultar-créditos-por-cliente)
+   - 5.3 [Consultar Catálogos de Plazos](#consultar-catálogos-de-plazos)
+   - 5.4 [Generar Cotización y Tabla de Amortización](#generar-cotización-y-tabla-de-amortización)
+   - 5.5 [Insertar Crédito](#insertar-crédito)
+   - 5.6 [Consultar Créditos por Cliente](#consultar-créditos-por-cliente)
 6. [Módulo de Consultas de Contratos](#módulo-de-consultas-de-contratos)
    - 6.1 [Consultar Tabla de Amortización](#consultar-tabla-de-amortización)
    - 6.2 [Consultar Detalles de Contrato](#consultar-detalles-de-contrato)
@@ -206,7 +208,51 @@ GET {{base_url}}/clsUsuario/Listar?Bandera=401&Email=moises@croop.mx
 
 El endpoint retorna la información completa del usuario asociado al email proporcionado, incluyendo su PKey (identificador único).
 
-### 4.2 Consultar Cliente por PKey
+### 4.2 Consultar Clientes General
+
+Permite obtener un listado paginado de clientes de la empresa con filtros avanzados por tipo de usuario.
+
+#### Especificación del Endpoint
+
+- **URL:** `/clsUsuario/Listar`
+- **Método HTTP:** `GET`
+- **Autenticación Requerida:** Sí
+
+#### Query Parameters
+
+| Parámetro | Tipo | Descripción | Valor/Origen |
+|-----------|------|-------------|--------------|
+| `Bandera` | Integer | Identificador de operación | Valor fijo: 408 |
+| `FK_Empresa` | Integer | ID de la empresa | Variable global `fk_empresa` |
+| `fJSON` | String | Filtros adicionales en formato JSON | Filtro por tipo de usuario |
+| `RegistrosPorPag` | Integer | Cantidad de registros por página | 10-100 registros |
+| `NumPag` | Integer | Número de página a consultar | Inicia en 1 |
+
+#### Estructura del parámetro fJSON
+
+```json
+{
+    "FK_TipoUsuario": [6]
+}
+```
+
+- `FK_TipoUsuario`: Array de tipos de usuario a filtrar (6 = Cliente)
+
+#### Ejemplo de Request
+
+```
+GET {{base_url}}/clsUsuario/Listar?Bandera=408&FK_Empresa={{fk_empresa}}&fJSON={ "FK_TipoUsuario": [6] }&RegistrosPorPag=10&NumPag=1
+```
+
+#### Response
+
+Retorna un objeto con:
+- Lista paginada de clientes
+- Total de registros encontrados
+- Información completa de cada cliente (nombre, email, RFC, CURP, dirección, etc.)
+- Metadata de paginación
+
+### 4.3 Consultar Cliente por PKey
 
 Obtiene la información detallada de un cliente utilizando su identificador único (PKey).
 
@@ -229,7 +275,7 @@ Obtiene la información detallada de un cliente utilizando su identificador úni
 GET {{base_url}}/clsUsuario/Listar?Bandera=402&PKey=96524
 ```
 
-### 4.3 Catálogo de Países
+### 4.4 Catálogo de Países
 
 Endpoint para obtener el catálogo completo de países disponibles en el sistema, utilizado principalmente en formularios de registro y actualización de datos.
 
@@ -245,7 +291,7 @@ Endpoint para obtener el catálogo completo de países disponibles en el sistema
 |-----------|------|-------|-------------|
 | `Bandera` | Integer | 403 | Identificador para obtener el catálogo de países |
 
-### 4.4 Insertar Nuevo Cliente
+### 4.5 Insertar Nuevo Cliente
 
 Endpoint para el registro de nuevos clientes en el sistema, incluyendo toda la información personal, fiscal y de contacto.
 
@@ -362,7 +408,40 @@ Obtiene las carteras de crédito a las que un vendedor específico tiene acceso 
 | `FK_Rama` | Integer | Rama o línea de negocio | 1 = Rama principal |
 | `FK_Usuario` | Integer | ID del vendedor/usuario | Variable `fk_login_name` del token |
 
-### 5.3 Generar Cotización y Tabla de Amortización
+### 5.3 Consultar Catálogos de Plazos
+
+Obtiene el catálogo de plazos disponibles para un producto específico, permitiendo conocer las opciones de financiamiento.
+
+#### Especificación del Endpoint
+
+- **URL:** `/clsCredito/listar`
+- **Método HTTP:** `GET`
+- **Autenticación Requerida:** Sí
+
+#### Query Parameters
+
+| Parámetro | Tipo | Descripción | Origen del Valor |
+|-----------|------|-------------|------------------|
+| `Bandera` | Integer | Identificador de operación | Valor fijo: 438 |
+| `PKey` | Integer/String | ID de la empresa | Variable global `fk_empresa` |
+| `FK_Producto` | Integer | ID del producto a consultar | Obtenido del catálogo de productos |
+
+#### Ejemplo de Request
+
+```
+GET {{base_url}}/clsCredito/listar?Bandera=438&PKey={{fk_empresa}}&FK_Producto=17364
+```
+
+#### Response
+
+Retorna un arreglo con los plazos disponibles para el producto, conteniendo:
+- Número de periodos disponibles
+- Tipo de plazo (diario, semanal, mensual)
+- Tasas de interés asociadas a cada plazo
+- Monto mínimo y máximo por plazo
+- Condiciones especiales si aplican
+
+### 5.4 Generar Cotización y Tabla de Amortización
 
 Genera una cotización detallada y la tabla de amortización para un crédito potencial sin crear el crédito en el sistema.
 
@@ -407,7 +486,7 @@ La respuesta incluye:
 - CAT (Costo Anual Total)
 - Comisiones aplicables
 
-### 5.4 Insertar Crédito Tipo Producto 1
+### 5.5 Insertar Crédito Tipo Producto 1
 
 Crea un nuevo crédito en el sistema con todas sus características y parámetros.
 
@@ -475,7 +554,7 @@ El campo `fJSON` contiene configuraciones adicionales en formato JSON string:
 
 - `BoolConsultarBuro`: Indica si se debe realizar consulta a buró de crédito
 
-### 5.5 Consultar Créditos por Cliente (Rama 1)
+### 5.6 Consultar Créditos por Cliente (Rama 1)
 
 Obtiene la lista de créditos asociados a un cliente específico con filtros avanzados.
 
@@ -789,18 +868,28 @@ Ejemplo: `18/09/2025`
 - 401: Consulta por email
 - 402: Consulta por PKey
 - 403: Catálogo de países
+- 408: Consulta general de clientes con paginación
 
 #### Módulo de Créditos
 - 100: Inserción de crédito
 - 401: Consulta tabla de amortización
+- 417: Consulta de productos disponibles
 - 432: Consulta de créditos por cliente
 - 437: Generación de cotización
+- 438: Consulta de catálogos de plazos
 - 445: Detalles de contrato
 
 #### Módulo de Pagos
 - 100: Inserción de pago
 - 101: Ejecución de cobro
 - 404: Consulta de pagos
+
+#### Módulo de Carteras
+- 400: Consulta general de carteras
+- 401: Carteras accesibles por vendedor
+
+#### Módulo de Movimientos
+- 403: Consulta de movimientos por contrato
 
 ---
 
@@ -872,14 +961,17 @@ Ejemplo: `18/09/2025`
 2. **Preparación de Catálogos**
    - Consultar países
    - Consultar productos disponibles
+   - Consultar plazos disponibles por producto
    - Consultar carteras accesibles
 
-3. **Registro de Cliente**
+3. **Gestión de Cliente**
+   - Consultar clientes existentes (general o por email)
    - Validar si existe por email
    - Si no existe, insertar nuevo cliente
    - Guardar PKey del cliente
 
 4. **Cotización**
+   - Seleccionar producto y plazo del catálogo
    - Generar cotización con parámetros deseados
    - Revisar tabla de amortización
    - Confirmar con cliente
@@ -916,7 +1008,11 @@ POST /api/access/Signin
 GET /api/clsAdminProducto/listar?Bandera=417&FK_Empresa=4&FK_TipoProducto=1
 Headers: { "Token": "eyJhbG...", "AppID": "eae76274..." }
 
-// 3. Generar cotización
+// 3. Consultar plazos disponibles para el producto
+GET /api/clsCredito/listar?Bandera=438&PKey=4&FK_Producto=17364
+Headers: { "Token": "eyJhbG...", "AppID": "eae76274..." }
+
+// 4. Generar cotización
 POST /api/clsCredito/listar
 {
     "Bandera": "437",
@@ -928,7 +1024,10 @@ POST /api/clsCredito/listar
     "PKey": "4"
 }
 
-// 4. Crear crédito
+// 5. Consultar o crear cliente
+GET /api/clsUsuario/Listar?Bandera=408&FK_Empresa=4&fJSON={ "FK_TipoUsuario": [6] }&RegistrosPorPag=10&NumPag=1
+
+// 6. Crear crédito
 POST /api/clsCredito/Insertar
 {
     "Bandera": 100,
@@ -949,6 +1048,8 @@ POST /api/clsCredito/Insertar
 | **Token JWT** | JSON Web Token para autenticación |
 | **Cartera** | Agrupación lógica de créditos |
 | **Rama** | Línea de negocio o división operativa |
+| **FK_TipoUsuario** | Identificador del tipo de usuario (6=Cliente, etc.) |
+| **fJSON** | Campo para parámetros adicionales en formato JSON |
 
 ### C. Contacto y Soporte
 
@@ -961,4 +1062,5 @@ Para soporte técnico o consultas sobre la API:
 ---
 
 *Documento generado para la versión de API desplegada en ambiente de desarrollo.*  
-*Última actualización: Septiembre 2025*
+*Última actualización: Septiembre 2025 - Versión 1.1*  
+*Cambios: Se agregaron endpoints de consulta general de clientes y catálogo de plazos*
