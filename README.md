@@ -39,7 +39,7 @@
 
 ---
 
-## 1. Introducción {#1-introducción}
+## 1. Introducción  
 
 El presente documento describe la especificación técnica de la API REST del sistema **CROOP Panel Cross**, una plataforma integral para la gestión de créditos y servicios financieros. Esta API proporciona una interfaz programática que permite la integración con sistemas externos y la automatización de procesos relacionados con la administración de clientes, créditos, pagos y transacciones financieras.
 
