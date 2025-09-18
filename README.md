@@ -575,7 +575,7 @@ Obtiene la lista de créditos asociados a un cliente específico con filtros ava
 | `FK_TipoProducto` | Integer | Filtro por tipo de producto | 1 = Crédito simple |
 | `NumPag` | Integer | Número de página | Paginación de resultados |
 | `FK_Usuario_Sol` | Integer | Usuario solicitante del crédito | Para filtrar por solicitante |
-| `Detalle` | Integer | Nivel de información | 4 = Detalle extendido |
+| `Detalle` | Integer | Nivel de información | 4 = Detalle extendido para consulta de usuarios de la empresa 4 (opcional) |
 
 ---
 
@@ -707,7 +707,7 @@ Registra un nuevo pago o abono a cuenta en el sistema.
 
 ### 7.3 Ejecución Manual de Cobro
 
-Ejecuta un proceso de cobro manual para un crédito específico.
+Ejecuta un proceso de cobro manual para un crédito específico, proceso posterior al abono para que aplique de forma inmediata.
 
 #### Especificación del Endpoint
 
@@ -1055,7 +1055,7 @@ POST /api/clsCredito/Insertar
 
 Para soporte técnico o consultas sobre la API:
 
-- **Documentación en línea:** https://docs.croop.mx
+- **Documentación completa en línea (centrada en los procesos documentados en este documento y otros):** https://api.croop.mx/
 - **Soporte técnico:** soporte@croop.mx
 - **Horario de atención:** Lunes a Viernes, 9:00 - 18:00 hrs (CST)
 
@@ -1063,4 +1063,7 @@ Para soporte técnico o consultas sobre la API:
 
 *Documento generado para la versión de API desplegada en ambiente de desarrollo.*  
 *Última actualización: Septiembre 2025 - Versión 1.1*  
-*Cambios: Se agregaron endpoints de consulta general de clientes y catálogo de plazos*
+*Cambios: 18-09-2025 - Carga de documentación inicial*
+
+*Esta documentación estará en constante actualización si se ameritan correcciones o actualizaciones de endpoints*
+
